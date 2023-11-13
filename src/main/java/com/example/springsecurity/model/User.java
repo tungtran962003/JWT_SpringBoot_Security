@@ -18,7 +18,6 @@ import java.util.Set;
         @UniqueConstraint(columnNames = "Username"),
         @UniqueConstraint(columnNames = "Email")
 })
-@AllArgsConstructor
 @NoArgsConstructor
 @Getter
 @Setter
@@ -40,11 +39,17 @@ public class User {
     @Size(max = 100, message = "Maximum password 100 characters")
     @Column(name = "Password")
     @NotBlank(message = "Password cannot be left blank")
-    @JsonIgnore
+//    @JsonIgnore
     private String password;
 
     // Tao bảng trung gian quan hệ nhiều nhiều
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "user_roles", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
     private Set<Role> roles = new HashSet<>();
+
+    public User(String username, String email, String password) {
+        this.username = username;
+        this.email = email;
+        this.password = password;
+    }
 }
